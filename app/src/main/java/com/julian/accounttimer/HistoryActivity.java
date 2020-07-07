@@ -84,6 +84,7 @@ public class HistoryActivity extends AppCompatActivity implements AdapterView.On
                 clone = listOfMessages;
 
                 listOfMessages.clear();
+                listOfNames.clear();
 
                 for (DataSnapshot messages : iterable) {
                     if(!messages.getValue().toString().contains(clone.toString())) {
@@ -110,9 +111,7 @@ public class HistoryActivity extends AppCompatActivity implements AdapterView.On
         adb.setMessage("Are you sure you want to delete " + listOfMessages.get(position) + "?");
         adb.setNegativeButton("Cancel", null);
         adb.setPositiveButton("Ok", (dialog, which) -> {
-
             myRef.child(user.getUid()).child("History").child(listOfNames.get(position)).removeValue();
-            listOfMessages.remove(position);
             myList.notifyDataSetChanged();
         });
         adb.show();

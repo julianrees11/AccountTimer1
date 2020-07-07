@@ -2,10 +2,15 @@ package com.julian.accounttimer;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.method.KeyListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,8 +34,9 @@ public class TimePicker extends DialogFragment {
 
     @Override
     public android.app.Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder.setCancelable(false);
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.time_picker, null);
@@ -39,13 +45,28 @@ public class TimePicker extends DialogFragment {
 
         builder.setView(view)
                 .setTitle("Set Time")
-                .setNegativeButton("Cancel", null)
-                .setPositiveButton("ok",  (dialog, which) ->{
-                    listener.timerNum(Integer.parseInt(etTime.getText().toString()));
-                });
+                .setNegativeButton("Cancel", (dialog, which) -> startActivity(new Intent(getActivity(), ListActivity.class)))
+                .setPositiveButton("ok",  (dialog, which) -> listener.timerNum(Integer.parseInt(etTime.getText().toString())));
 
+        AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
 
-        return builder.create();
+        etTime.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!etTime.getText().toString().isEmpty()){
+                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                }else dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s){}
+        });
+
+        return dialog;
     }
 
     public interface DialogListener {
