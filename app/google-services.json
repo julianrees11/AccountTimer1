@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "289698956584",
+    "firebase_url": "https://account-time.firebaseio.com",
+    "project_id": "account-time",
+    "storage_bucket": "account-time.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:289698956584:android:3c03d5b97336c6f504bc1d",
+        "android_client_info": {
+          "package_name": "com.julian.accounttimer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "289698956584-khjhik7pr05jsbel6h6b7tp6h3fl2mg8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQeUJAbz_m6KW1Po8XwG5IFsr58NKXeSc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "289698956584-khjhik7pr05jsbel6h6b7tp6h3fl2mg8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">AccountTimer</string>
+    <string name="underline_link"><u>Don"'"t have an account? Register here</u></string>
+</resources>
