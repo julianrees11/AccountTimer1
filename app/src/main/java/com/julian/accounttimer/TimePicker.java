@@ -2,15 +2,14 @@ package com.julian.accounttimer;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.method.KeyListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -65,6 +64,8 @@ public class TimePicker extends DialogFragment {
             @Override
             public void afterTextChanged(Editable s){}
         });
+
+        dialog.setOnShowListener(dialog1 -> dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false));
 
         return dialog;
     }
