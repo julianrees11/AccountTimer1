@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -48,8 +49,7 @@ public class ListActivity extends AppCompatActivity implements AdapterView.OnIte
     FirebaseUser user;
 
     ArrayList<String> listOfMessages = new ArrayList<>();
-
-    int i = 0;
+    ArrayList<String> listOfNames = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +95,6 @@ public class ListActivity extends AppCompatActivity implements AdapterView.OnIte
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
 
-
         });
 
         btnHome.setOnClickListener(v -> {
@@ -105,8 +104,10 @@ public class ListActivity extends AppCompatActivity implements AdapterView.OnIte
 
         btnAdd.setOnClickListener(v -> {
             if(!etAdd.getText().toString().isEmpty()){
-                myRef.child(user.getUid()).child("Clients").child(etAdd.getText().toString()).setValue(etAdd.getText().toString());
-                etAdd.setText("");
+                if (!listOfMessages.contains(etAdd.getText().toString())) {
+                    myRef.child(user.getUid()).child("Clients").child(etAdd.getText().toString()).setValue(etAdd.getText().toString());
+                    etAdd.setText("");
+                }
             }else Toast.makeText(ListActivity.this, "Please fill in the required field.", Toast.LENGTH_SHORT).show();
         });
 
@@ -125,9 +126,11 @@ public class ListActivity extends AppCompatActivity implements AdapterView.OnIte
                 clone = listOfMessages;
 
                 listOfMessages.clear();
+                listOfNames.clear();
 
                 for (DataSnapshot messages : iterable) {
                     if(!messages.getValue().toString().contains(clone.toString())) {
+                        listOfNames.add(messages.getKey());
                         listOfMessages.add(messages.getValue().toString());
                     }
                 }
@@ -140,24 +143,17 @@ public class ListActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
     }
 
-
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-        AlertDialog.Builder adb = new AlertDialog.Builder(ListActivity.this);
-        adb.setTitle("Delete?");
-        adb.setMessage("Are you sure you want to delete " + listOfMessages.get(position) + "?");
-        adb.setNegativeButton("Cancel", null);
-        adb.setPositiveButton("Ok", (dialog, which) -> {
-            myRef.child(user.getUid()).child("Clients").child(listOfMessages.get(position)).removeValue();
-            listOfMessages.remove(position);
-            myList.notifyDataSetChanged();
-        });
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        AlertDialog.Builder adb = new AlertDialog.Builder(this);
+        adb.setMessage("Are you sure you want to delete " + listOfNames.get(position) + "?");
+        adb.setPositiveButton("Yes", (dialog, which) -> myRef.child(user.getUid()).child("Clients").child(listOfNames.get(position)).removeValue());
+        adb.setNegativeButton("No", null);
+        adb.create();
         adb.show();
     }
 }

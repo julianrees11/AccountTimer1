@@ -38,8 +38,9 @@ public class HistoryActivity extends AppCompatActivity implements AdapterView.On
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser user;
 
-    ArrayList<String> listOfMessages = new ArrayList<>();
-    ArrayList<String> listOfNames = new ArrayList<>();
+    ArrayList<String> listOfClients = new ArrayList<>();
+    ArrayList<String> listOfPushes = new ArrayList<>();
+    ArrayList<Integer> listOfTimes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,22 +79,24 @@ public class HistoryActivity extends AppCompatActivity implements AdapterView.On
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 DataSnapshot snapshot = dataSnapshot.child(user.getUid()).child("History");
 
-                Iterable<DataSnapshot> iterable = snapshot.getChildren();
+                listOfPushes.clear();
+                listOfClients.clear();
+                listOfTimes.clear();
 
-                ArrayList<String> clone;
-                clone = listOfMessages;
+                int i = 0;
 
-                listOfMessages.clear();
-                listOfNames.clear();
+                for (DataSnapshot messages : snapshot.getChildren()) {
+                    listOfPushes.add(messages.getKey());
 
-                for (DataSnapshot messages : iterable) {
-                    if(!messages.getValue().toString().contains(clone.toString())) {
-                        listOfMessages.add(messages.getValue().toString());
-                        listOfNames.add(messages.getKey());
+                    for (DataSnapshot messages1 : snapshot.child(listOfPushes.get(i)).getChildren()) {
+                        listOfClients.add(messages1.getKey());
+                        listOfTimes.add(Integer.parseInt(messages1.getValue().toString()));
                     }
+
+                    i++;
                 }
 
-                myList = new ArrayAdapter<>(HistoryActivity.this, android.R.layout.simple_list_item_1, listOfMessages);
+                myList = new ArrayAdapter<>(HistoryActivity.this, android.R.layout.simple_list_item_1, listOfClients);
 
                 listView.setAdapter(myList);
             }
@@ -106,14 +109,13 @@ public class HistoryActivity extends AppCompatActivity implements AdapterView.On
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-        AlertDialog.Builder adb = new AlertDialog.Builder(this);
-        adb.setTitle("Delete?");
-        adb.setMessage("Are you sure you want to delete " + listOfMessages.get(position) + "?");
-        adb.setNegativeButton("Cancel", null);
-        adb.setPositiveButton("Ok", (dialog, which) -> {
-            myRef.child(user.getUid()).child("History").child(listOfNames.get(position)).removeValue();
-            myList.notifyDataSetChanged();
-        });
-        adb.show();
+        InfoViewer infoViewer = new InfoViewer();
+
+        Bundle args = new Bundle();
+        args.putString("CLIENT", listOfClients.get(position));
+        args.putInt("TIME", listOfTimes.get(position));
+        args.putString("PUSH", listOfPushes.get(position));
+        infoViewer.setArguments(args);
+        infoViewer.show(getSupportFragmentManager(), "dialog");
     }
 }

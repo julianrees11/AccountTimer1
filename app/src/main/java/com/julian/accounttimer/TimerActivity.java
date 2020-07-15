@@ -81,13 +81,8 @@ public class TimerActivity extends AppCompatActivity implements TimePicker.Dialo
             int millisToSec = (int) timeLeftInMillis / 1000;
             int timeSpent = (int) START_TIME_IN_MILLIS - (millisToSec * 1000);
 
-            int hours = (timeSpent / 1000) / 3600;
-            int minutes = ((timeSpent / 1000) % 3600) / 60;
-            int seconds = (timeSpent / 1000) % 60;
+            myRef.child(user.getUid()).child("History").push().child(getIntent().getStringExtra("CLIENT")).setValue(timeSpent);
 
-            String timeLeftFormatted = String.format(Locale.getDefault(),"%02d:%02d:%02d", hours, minutes, seconds);
-
-            myRef.child(user.getUid()).child("History").push().setValue(getIntent().getStringExtra("CLIENT") + " Time: " + timeLeftFormatted);
             startActivity(new Intent(this, ListActivity.class));
         });
     }
