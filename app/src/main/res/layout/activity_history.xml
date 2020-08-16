@@ -21,6 +21,62 @@
             android:gravity="center"
             android:text="(Click on item to delete)" />
 
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/lvList">
+
+            <TextView
+                android:id="@+id/tvClient"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:background="@drawable/border_line"
+                android:padding="5dp"
+                android:text="Client" />
+
+            <TextView
+                android:id="@+id/tvWorkType"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:background="@drawable/border_line"
+                android:padding="5dp"
+                android:text="Work Type" />
+
+            <TextView
+                android:id="@+id/tvWork"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:background="@drawable/border_line"
+                android:padding="5dp"
+                android:text="Work" />
+
+            <TextView
+                android:id="@+id/tvTime"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:background="@drawable/border_line"
+                android:padding="5dp"
+                android:text="Time" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:background="@drawable/border_line"
+                android:padding="5dp"
+                android:text="Date" />
+        </LinearLayout>
+
         <ListView
             android:id="@+id/lvListHistoryActivity"
             android:layout_width="match_parent"
@@ -39,28 +95,13 @@
         tools:layout_editor_absoluteY="466dp">
 
         <Button
-            android:id="@+id/btnLogoutHistoryActivity"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="left"
-            android:layout_weight="0"
-            android:background="@drawable/ic_logout"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.517"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.448" />
-
-        <Button
             android:id="@+id/btnHomeHistoryActivity"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginLeft="70sp"
-            android:layout_marginRight="70sp"
+
+            android:layout_marginRight="20dp"
             android:layout_weight="0"
             android:background="@drawable/ic_list" />
 

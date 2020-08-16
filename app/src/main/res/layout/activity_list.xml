@@ -15,14 +15,37 @@
         android:layout_weight="9.7"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvGreeting"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="Welcome, Julian!"
-            android:textColor="#000000"
-            android:textSize="35sp" />
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+            <TextView
+                android:id="@+id/tvGreeting"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="9.6"
+                android:gravity="center"
+                android:text="Welcome to AccountTimer!"
+                android:textColor="#000000"
+                android:textSize="27dp" />
+
+            <Button
+                android:id="@+id/btnLogout1"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.4"
+                android:background="@drawable/ic_logout"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.517"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.448" />
+
+        </LinearLayout>
 
         <EditText
             android:id="@+id/etAdd"
@@ -60,23 +83,9 @@
         android:layout_gravity="bottom|center_horizontal"
         android:layout_weight="0.3"
         android:orientation="horizontal"
+        android:weightSum="4"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="466dp">
-
-        <Button
-            android:id="@+id/btnLogout1"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="left"
-            android:layout_weight="0"
-            android:background="@drawable/ic_logout"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.517"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.448" />
 
         <Button
             android:id="@+id/btnHome2"
@@ -84,9 +93,8 @@
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginLeft="70sp"
-            android:layout_marginRight="70sp"
-            android:layout_weight="0"
+
+            android:layout_weight="1"
             android:background="@drawable/ic_list_selected" />
 
         <Button
@@ -94,15 +102,16 @@
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:layout_marginRight="70dp"
-            android:layout_weight="0"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
             android:background="@drawable/ic_timer" />
 
         <Button
             android:id="@+id/btnHistory"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:layout_weight="0"
+            android:layout_weight="1"
             android:background="@drawable/ic_history" />
 
     </LinearLayout>

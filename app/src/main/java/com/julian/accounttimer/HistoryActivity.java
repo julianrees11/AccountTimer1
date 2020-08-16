@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -25,7 +24,6 @@ import java.util.Collections;
 
 public class HistoryActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    Button btnLogout;
     Button btnHome;
     Button btnHistory;
 
@@ -47,7 +45,6 @@ public class HistoryActivity extends AppCompatActivity implements AdapterView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        btnLogout = findViewById(R.id.btnLogoutHistoryActivity);
         btnHome = findViewById(R.id.btnHomeHistoryActivity);
         listView = findViewById(R.id.lvListHistoryActivity);
         btnHistory = findViewById(R.id.btnHistoryListActivity);
@@ -59,11 +56,6 @@ public class HistoryActivity extends AppCompatActivity implements AdapterView.On
         saveData();
 
         btnHistory.setOnClickListener(v -> startActivity(new Intent(this, HistoryActivity.class)));
-
-        btnLogout.setOnClickListener(v -> {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-        });
 
         btnHome.setOnClickListener(v -> {
             Intent intent = new Intent(this, ListActivity.class);

@@ -45,6 +45,9 @@ public class TimerActivity extends AppCompatActivity implements TimePicker.Dialo
 
     String client, workType, work;
 
+    Uri notification;
+    MediaPlayer mp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +69,9 @@ public class TimerActivity extends AppCompatActivity implements TimePicker.Dialo
         TimePicker timePicker = new TimePicker();
         timePicker.show(getSupportFragmentManager(), "dialog");
 
+        notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        mp = MediaPlayer.create(getApplicationContext(), notification);
+
         btnStart.setOnClickListener(view -> {
             if (timerRunning) {
                 TimerActivity.this.pauseTimer();
@@ -77,29 +83,40 @@ public class TimerActivity extends AppCompatActivity implements TimePicker.Dialo
         });
 
         btnCancel.setOnClickListener(view -> {
+            mp.stop();
+
             AlertDialog.Builder adb = new AlertDialog.Builder(TimerActivity.this);
             adb.setTitle("Cancel?");
-            adb.setMessage("Are you sure you want to cancel your timer?");
+            adb.setMessage("Are you sure you want to cancel your timer? This will NOT save it.");
             adb.setNegativeButton("No", null);
             adb.setPositiveButton("Yes", (dialog, which) -> startActivity(new Intent(TimerActivity.this, ListActivity.class)));
             adb.show();
         });
 
         btnFinished.setOnClickListener(view -> {
-            int millisToSec = (int) timeLeftInMillis / 1000;
-            int timeSpent = (int) START_TIME_IN_MILLIS - (millisToSec * 1000);
+            mp.stop();
 
-            String currentDate = new SimpleDateFormat("MM-dd-yyyy", Locale.getDefault()).format(new Date());
+            AlertDialog.Builder adb = new AlertDialog.Builder(TimerActivity.this);
+            adb.setTitle("Finished?");
+            adb.setMessage("Are you finished? This will save your timer.");
+            adb.setNegativeButton("No", null);
+            adb.setPositiveButton("Yes", (dialog, which) -> {
+                int millisToSec = (int) timeLeftInMillis / 1000;
+                int timeSpent = (int) START_TIME_IN_MILLIS - (millisToSec * 1000);
 
-            myRef.child(user.getUid()).child("History").push().child(client).child(workType).child(currentDate).child(work).setValue(timeSpent);
+                String currentDate = new SimpleDateFormat("MM-dd-yyyy", Locale.getDefault()).format(new Date());
 
-            startActivity(new Intent(this, ListActivity.class));
+                myRef.child(user.getUid()).child("History").push().child(client).child(workType).child(currentDate).child(work).setValue(timeSpent);
+
+                startActivity(new Intent(this, ListActivity.class));
+            });
+
+            adb.show();
         });
     }
 
     private void startTimer() {
         countTimer = new CountDownTimer(timeLeftInMillis, 1000) {
-
             @Override
             public void onTick(long l) {
                 if (timeLeftInMillis < 11000) {
@@ -118,8 +135,7 @@ public class TimerActivity extends AppCompatActivity implements TimePicker.Dialo
                 MediaPlayer mp = MediaPlayer.create(getApplicationContext(), notification);
                 mp.start();
 
-                btnFinished.setOnClickListener(v -> stopAlarm(mp));
-
+                btnCancel.setEnabled(true);
 
                 timerRunning = false;
                 btnStart.setText("Play");
@@ -149,10 +165,6 @@ public class TimerActivity extends AppCompatActivity implements TimePicker.Dialo
         String timeLeftFormatted = String.format(Locale.getDefault(),"%02d:%02d:%02d", hours, minutes, seconds);
 
         tvTimer.setText(timeLeftFormatted);
-    }
-
-    private void stopAlarm(MediaPlayer mp) {
-        mp.stop();
     }
 
     @Override

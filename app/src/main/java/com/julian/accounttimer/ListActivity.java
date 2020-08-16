@@ -69,7 +69,10 @@ public class ListActivity extends AppCompatActivity implements AdapterView.OnIte
 
         System.out.println(user.getDisplayName());
 
-        tvGreeting.setText("Hi, " + user.getDisplayName());
+        if (!(user.getDisplayName() == null)) {
+            tvGreeting.setTextSize(35);
+            tvGreeting.setText("Hello, " + user.getDisplayName());
+        }
 
         saveData();
 
