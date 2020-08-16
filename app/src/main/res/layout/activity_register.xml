@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/custom_background"
+    android:background="#eee"
     android:orientation="vertical"
     tools:context="com.julian.accounttimer.RegisterActivity">
 
@@ -56,10 +56,8 @@
         android:layout_gravity="center"
         android:layout_marginLeft="100dp"
         android:layout_marginRight="100dp"
-        android:background="@drawable/custom_button"
         android:gravity="center"
         android:text="Register"
         android:textAllCaps="false"
-        android:textColor="#002FBC"
-        android:textSize="30sp" />
+        android:textSize="25dp" />
 </LinearLayout>

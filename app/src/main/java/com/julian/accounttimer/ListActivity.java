@@ -26,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class ListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class ListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, InfoViewer.DialogListener {
 
     TextView tvGreeting;
 
@@ -76,25 +76,14 @@ public class ListActivity extends AppCompatActivity implements AdapterView.OnIte
         btnHistory.setOnClickListener(v -> startActivity(new Intent(this, HistoryActivity.class)));
 
         btnLogout.setOnClickListener(v -> {
-            Intent intent = new Intent(ListActivity.this, ListActivity.class);
+            Intent intent = new Intent(ListActivity.this, MainActivity.class);
             startActivity(intent);
         });
 
         btnProfile.setOnClickListener(v -> {
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(ListActivity.this);
-            builder.setTitle("Choose a client");
-
-            Intent intent = new Intent(ListActivity.this, TimerActivity.class);
-
-            builder.setItems(listOfMessages.toArray(new String[0]), (dialog, which) -> {
-                intent.putExtra("CLIENT", listOfMessages.get(which));
-                System.out.println(listOfMessages.get(which));
-                startActivity(intent);
-            });
-            AlertDialog alertDialog = builder.create();
-            alertDialog.show();
-
+            InfoViewer infoViewer = new InfoViewer();
+            infoViewer.show(getSupportFragmentManager(), "dialog");
         });
 
         btnHome.setOnClickListener(v -> {
@@ -155,5 +144,14 @@ public class ListActivity extends AppCompatActivity implements AdapterView.OnIte
         adb.setNegativeButton("No", null);
         adb.create();
         adb.show();
+    }
+
+    @Override
+    public void clientInfo(String client, String workType, String work) {
+        Intent intent  = new Intent(ListActivity.this, TimerActivity.class);
+        intent.putExtra("CLIENT", client);
+        intent.putExtra("WORKTYPE", workType);
+        intent.putExtra("WORK", work);
+        startActivity(intent);
     }
 }

@@ -20,6 +20,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 public class TimerActivity extends AppCompatActivity implements TimePicker.DialogListener {
@@ -41,6 +43,8 @@ public class TimerActivity extends AppCompatActivity implements TimePicker.Dialo
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser user = mAuth.getCurrentUser();
 
+    String client, workType, work;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +57,11 @@ public class TimerActivity extends AppCompatActivity implements TimePicker.Dialo
         tvClient = findViewById(R.id.tvClient);
         btnFinished = findViewById(R.id.btnFinished);
 
-        tvClient.setText("Client: " + getIntent().getStringExtra("CLIENT"));
+        client = getIntent().getStringExtra("CLIENT");
+        workType = getIntent().getStringExtra("WORKTYPE");
+        work = getIntent().getStringExtra("WORK");
+
+        tvClient.setText("Client: " + client);
 
         TimePicker timePicker = new TimePicker();
         timePicker.show(getSupportFragmentManager(), "dialog");
@@ -81,7 +89,9 @@ public class TimerActivity extends AppCompatActivity implements TimePicker.Dialo
             int millisToSec = (int) timeLeftInMillis / 1000;
             int timeSpent = (int) START_TIME_IN_MILLIS - (millisToSec * 1000);
 
-            myRef.child(user.getUid()).child("History").push().child(getIntent().getStringExtra("CLIENT")).setValue(timeSpent);
+            String currentDate = new SimpleDateFormat("MM-dd-yyyy", Locale.getDefault()).format(new Date());
+
+            myRef.child(user.getUid()).child("History").push().child(client).child(workType).child(currentDate).child(work).setValue(timeSpent);
 
             startActivity(new Intent(this, ListActivity.class));
         });
